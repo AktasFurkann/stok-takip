@@ -23,7 +23,8 @@ export default function BasicCard({ item }) {
 
   if (error) return 'An error has occurred: ' + error.message
 
-
+console.log(data);
+console.log(item);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -75,7 +76,7 @@ export default function BasicCard({ item }) {
         <CardContent>
 
           <Typography variant="h5" component="div"  >
-            {data.cinsi.toUpperCase()}
+            {item.cinsi.toUpperCase()}
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary" >
             {data.urun}
@@ -89,7 +90,7 @@ export default function BasicCard({ item }) {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button href={`/Islem/${data._id}`} size="small">Düzenle</Button>
+          <Button href={`/Islem/${data._id}`} size="small">Stok Ekle / Çıkar</Button>
         </CardActions>
       </Card>
     </>

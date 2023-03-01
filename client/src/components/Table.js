@@ -7,11 +7,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, Grid, Input } from '@mui/material';
+import { Button, Grid, Input, TextField } from '@mui/material';
 import { UseUrunAuth } from '../context/urunContext';
 import { useQuery } from 'react-query';
 import { urunGetir, urunuSil } from '../api';
 import ButtonDialog from '../components/ButtonDialog'
+import { red } from '@mui/material/colors';
 
 
 export default function BasicTable() {
@@ -36,9 +37,8 @@ export default function BasicTable() {
 
   return (
     <>
-      <Grid marginLeft="100px">
-        <Input placeholder='Arama Çubuğu' value={filterData} onChange={(e) => setFilterData(e.target.value)} width='auto' />
-
+      <Grid marginLeft="100px" >
+        <TextField   value={filterData} onChange={(e) => setFilterData(e.target.value)} id="outlined-search" label="Arama Çubuğu" type="search" size='small'/>
       </Grid>
 
       <TableContainer component={Paper}>

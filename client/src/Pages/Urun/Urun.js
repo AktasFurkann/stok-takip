@@ -9,6 +9,10 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useFormik } from 'formik'
 import { urunEkle } from '../../api';
+import validationSchema from './validation';
+import { Alert } from '@mui/material';
+import { Flex, Heading,FormControl,FormLabel ,FormErrorMessage } from '@chakra-ui/react'
+
 const theme = createTheme();
 
 
@@ -25,6 +29,7 @@ export default function Urun({ item }) {
       fiyat: "",
       stokDurum: "yok"
     },
+    validationSchema,
     onSubmit: async (values, bag) => {
       try {
         const registerResponse = await urunEkle(values);
@@ -40,6 +45,7 @@ export default function Urun({ item }) {
       }
     }
   })
+  console.log(formik.errors);
 
   return (
     <ThemeProvider theme={theme}>
@@ -53,13 +59,15 @@ export default function Urun({ item }) {
             alignItems: 'center',
           }}
         >
-
           <Typography component="h1" variant="h5">
             Ürün Ekle
           </Typography>
           <Box component="form" noValidate onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
+          <Box my={5}>
+            </Box>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} >
+                
                 <TextField
                   autoComplete="given-name"
                   name="stokKodu"
@@ -72,8 +80,9 @@ export default function Urun({ item }) {
                   disabled
                   value={formik.values.stokKodu}
                 />
+                
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} >
                 <TextField
                   required
                   fullWidth
@@ -84,7 +93,7 @@ export default function Urun({ item }) {
                   value={formik.values.cinsi}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} >
                 <TextField
                   required
                   fullWidth
@@ -95,7 +104,7 @@ export default function Urun({ item }) {
                   value={formik.values.birimi}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} >
                 <TextField
                   required
                   fullWidth
@@ -106,7 +115,7 @@ export default function Urun({ item }) {
                   value={formik.values.grubu}
                 />
               </Grid>
-              <Grid item xs={12} >
+              <Grid item xs={12}   >
                 <TextField
                   required
                   fullWidth
