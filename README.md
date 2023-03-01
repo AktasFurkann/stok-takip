@@ -2,7 +2,7 @@
 ## Önkoşullar
 * Node.js / npm
 * Git
----
+
 ## Sırasıyla aşağıdaki işlemleri yapınız.
 Visual Studio Code uygulamasını açıyoruz.  
 Uygulamayı açtıktan sonra ` Terminal -> New Terminal `  ya da  `Ctrl+Shift+"`  tuş kombinasyonu ile terminali açıyoruz. Ardından terminal aracılığıyla prjoeyi aktarmak istediğiniz klasöre linux komutlarını kullanarak giriyoruz.\
