@@ -1,14 +1,9 @@
 import { useState, createContext, useEffect, useContext } from 'react'
-import { useQuery } from 'react-query';
 import { urunleriGetir } from '../api';
-
-
 
 const AuthContext = createContext();
 
 const UrunProvider = ({ children }) => {
-
-
 
     const [urun, setUrun] = useState([]);
 
@@ -24,7 +19,6 @@ const UrunProvider = ({ children }) => {
             }
         })()
     }, [])
-
 
     const values = {
         urun

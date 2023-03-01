@@ -8,18 +8,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useFormik } from 'formik'
-import { stokDuzenle, stokEkle, stokGetir, stoklarGetir, urunDuzenle } from '../api';
-import { useNavigate, useParams } from 'react-router-dom'
+import { stokDuzenle, stokGetir } from '../api';
 import { useQuery } from 'react-query';
-import { UseStokAuth } from '../context/stokContext';
 
 const theme = createTheme();
 
-
 export default function StokCikis({ veri }) {
   const [onay, setOnay] = React.useState(false)
-
-  const { _id } = useParams();
 
   const formik = useFormik({
     initialValues: {
@@ -34,13 +29,11 @@ export default function StokCikis({ veri }) {
     },
     onSubmit: async (values, bag) => {
       try {
-
         if (data.adet >= Number(values.adet)) {
-          const stokDuzenleme = await stokDuzenle({ adet: data.adet - Number(values.adet) }, veri.stokKodu);
+          await stokDuzenle({ adet: data.adet - Number(values.adet) }, veri.stokKodu);
           setOnay(true)
-
         } else {
-          console.log("stokta o kadar malzeme yok");
+          alert("Stokta yeteri kadar malzeme yok");
         }
       } catch (e) {
         console.log(e);
@@ -54,7 +47,6 @@ export default function StokCikis({ veri }) {
 
   if (error) return 'An error has occurred: ' + error.message
 
-
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -67,7 +59,6 @@ export default function StokCikis({ veri }) {
             alignItems: 'center',
           }}
         >
-
           <Typography component="h1" variant="h5">
             Stok Çıkış
           </Typography>
@@ -156,7 +147,6 @@ export default function StokCikis({ veri }) {
             >
               Çıkış işlemi yap
             </Button>
-
           </Box>
           <Button
             type="submit"
@@ -165,7 +155,6 @@ export default function StokCikis({ veri }) {
             sx={{ mt: 3, mb: 2 }}
             href="/"
             disabled={onay === false ? true : false}
-
           >
             Onayla
           </Button>

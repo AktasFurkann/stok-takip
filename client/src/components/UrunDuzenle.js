@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -11,11 +11,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useFormik } from 'formik'
 import { stokDuzenle, urunDuzenle } from '../api';
 
-
 const theme = createTheme();
 
 export default function Duzenle({ veri }) {
-
     const [onay, setOnay] = useState(false)
 
     const formik = useFormik({
@@ -28,20 +26,14 @@ export default function Duzenle({ veri }) {
         },
         onSubmit: async (values, bag) => {
             try {
-                const urunDuzenleme = await urunDuzenle(values, veri._id);
-                const stokDuzenleme = await stokDuzenle({ birimFiyat: Number(values.fiyat) }, values.stokKodu);
+                await urunDuzenle(values, veri._id);
+                await stokDuzenle({ birimFiyat: Number(values.fiyat) }, values.stokKodu);
                 setOnay(true)
-
             } catch (e) {
                 console.log(e);
             }
         }
     })
-
-    // const submitoldu = useEffect(() => {
-    //     if(onay){setOnay(true)}
-    // },[])
-
 
     return (
         <ThemeProvider theme={theme}>
@@ -55,7 +47,6 @@ export default function Duzenle({ veri }) {
                         alignItems: 'center',
                     }}
                 >
-
                     <Typography component="h1" variant="h5">
                         Ürün Düzenle
                     </Typography>
@@ -84,7 +75,6 @@ export default function Duzenle({ veri }) {
                                     name="cinsi"
                                     onChange={formik.handleChange}
                                     value={formik.values.cinsi}
-
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -96,7 +86,6 @@ export default function Duzenle({ veri }) {
                                     name="birimi"
                                     onChange={formik.handleChange}
                                     value={formik.values.birimi}
-
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -108,7 +97,6 @@ export default function Duzenle({ veri }) {
                                     id="grubu"
                                     onChange={formik.handleChange}
                                     value={formik.values.grubu}
-
                                 />
                             </Grid>
                             <Grid item xs={12} >
@@ -120,10 +108,8 @@ export default function Duzenle({ veri }) {
                                     id="fiyat"
                                     onChange={formik.handleChange}
                                     value={formik.values.fiyat}
-
                                 />
                             </Grid>
-
                         </Grid>
                         <Button
                             type="submit"
@@ -142,7 +128,6 @@ export default function Duzenle({ veri }) {
                         sx={{ mt: 3, mb: 2 }}
                         href="/malzeme"
                         disabled={onay === false ? true : false}
-
                     >
                         Onayla
                     </Button>

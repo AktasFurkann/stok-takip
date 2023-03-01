@@ -7,22 +7,20 @@ import { urunGetir } from '../../api';
 import { useQuery } from 'react-query';
 
 export default function Islem() {
-    const {stokKod} = useParams();
+    const { stokKod } = useParams();
 
-    const { isLoading, error, data } = useQuery(['urun-getir',stokKod],() => urunGetir(stokKod))
- 
-   if (isLoading) return 'Loading...'
- 
-   if (error) return 'An error has occurred: ' + error.message
+    const { isLoading, error, data } = useQuery(['urun-getir', stokKod], () => urunGetir(stokKod))
 
-    console.log(data);
+    if (isLoading) return 'Loading...'
+
+    if (error) return 'An error has occurred: ' + error.message
+    
     return (
         <div>
             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 16 }}>
-                <StokGiris veri={data}/>
-                <StokCikis veri={data}/>
+                <StokGiris veri={data} />
+                <StokCikis veri={data} />
             </Grid>
         </div>
-
     );
 }

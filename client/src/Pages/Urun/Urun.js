@@ -9,17 +9,14 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useFormik } from 'formik'
 import { urunEkle } from '../../api';
-import validationSchema from './validation';
-import { Alert } from '@mui/material';
-import { Flex, Heading,FormControl,FormLabel ,FormErrorMessage } from '@chakra-ui/react'
 
 const theme = createTheme();
 
-
-
 export default function Urun({ item }) {
   const [onay, setOnay] = React.useState(false)
+
   const numaralar = item.map((veri) => veri.stokKodu)
+
   const formik = useFormik({
     initialValues: {
       stokKodu: item.length > 0 ? Number(numaralar[numaralar.length - 1]) + 1 : "1",
@@ -29,23 +26,15 @@ export default function Urun({ item }) {
       fiyat: "",
       stokDurum: "yok"
     },
-    validationSchema,
     onSubmit: async (values, bag) => {
       try {
-        const registerResponse = await urunEkle(values);
+        await urunEkle(values);
         setOnay(true)
-        if (registerResponse.hataKodu === 400) {
-          bag.setErrors({ general: "bu stok kodu zaten var!" })
-        }
-        else {
-          console.log(registerResponse);
-        }
       } catch (e) {
         console.log(e);
       }
     }
   })
-  console.log(formik.errors);
 
   return (
     <ThemeProvider theme={theme}>
@@ -63,11 +52,10 @@ export default function Urun({ item }) {
             Ürün Ekle
           </Typography>
           <Box component="form" noValidate onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
-          <Box my={5}>
+            <Box my={5}>
             </Box>
             <Grid container spacing={2}>
               <Grid item xs={12} >
-                
                 <TextField
                   autoComplete="given-name"
                   name="stokKodu"
@@ -80,7 +68,6 @@ export default function Urun({ item }) {
                   disabled
                   value={formik.values.stokKodu}
                 />
-                
               </Grid>
               <Grid item xs={12} >
                 <TextField
@@ -126,7 +113,6 @@ export default function Urun({ item }) {
                   value={formik.values.fiyat}
                 />
               </Grid>
-
             </Grid>
             <Button
               type="submit"
@@ -137,7 +123,6 @@ export default function Urun({ item }) {
             >
               Ürün Ekle
             </Button>
-
           </Box>
           <Button
             type="submit"
@@ -146,7 +131,6 @@ export default function Urun({ item }) {
             sx={{ mt: 3, mb: 2 }}
             href="/malzeme"
             disabled={onay === false ? true : false}
-
           >
             Onayla
           </Button>

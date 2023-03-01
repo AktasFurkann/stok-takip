@@ -8,5 +8,4 @@ router.patch('/:urun_id', urunController.urunGuncelle);
 router.post('/', urunController.urunEkle);
 router.delete('/:urun_id', urunController.urunSil);
 
-
 module.exports = router;

@@ -22,8 +22,7 @@ const urunSchema = new Schema({
         required: true,
         trim: true,
         lowercase: true
-    }
-    ,
+    },
     fiyat: {
         type: String,
         lowercase: true,

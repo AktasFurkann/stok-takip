@@ -21,8 +21,7 @@ const stokSchema = new Schema({
         required: true,
         trim: true,
         lowercase: true
-    }
-    ,
+    },
     birimFiyat: {
         type: Number,
         required: true

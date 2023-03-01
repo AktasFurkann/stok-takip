@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,8 +15,6 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 const drawerWidth = 240;
-const navItems = ['Stok', 'Malzemeler', 'Ürün Ekle'];
-
 function DrawerAppBar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -33,7 +30,6 @@ function DrawerAppBar(props) {
       </Typography>
       <Divider />
       <List>
-
         <ListItem disablePadding>
           <ListItemButton href='/' sx={{ textAlign: 'center' }}>
             <ListItemText primary="Stok" />
@@ -76,16 +72,9 @@ function DrawerAppBar(props) {
             Stok-Takip
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            <Button href='/' sx={{ color: '#fff' }}>
-              Stok
-            </Button>
-
-            <Button href='/Malzeme' sx={{ color: '#fff' }}>
-              Malzemeler
-            </Button>
-            <Button href='/Urun' sx={{ color: '#fff' }}>
-              Ürün Ekle
-            </Button>
+            <Button href='/' sx={{ color: '#fff' }}>Stok</Button>
+            <Button href='/Malzeme' sx={{ color: '#fff' }}>Malzemeler</Button>
+            <Button href='/Urun' sx={{ color: '#fff' }}>Ürün Ekle</Button>
           </Box>
         </Toolbar>
       </AppBar>
@@ -108,18 +97,9 @@ function DrawerAppBar(props) {
       </Box>
       <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
-
       </Box>
     </Box>
   );
 }
-
-DrawerAppBar.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
 
 export default DrawerAppBar;

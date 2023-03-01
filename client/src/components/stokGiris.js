@@ -8,19 +8,14 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useFormik } from 'formik'
-import { stokDuzenle, stokEkle, stokGetir, stoklarGetir, urunDuzenle } from '../api';
-import { useNavigate, useParams } from 'react-router-dom'
+import { stokDuzenle, stokEkle, stokGetir, urunDuzenle } from '../api';
 import { useQuery } from 'react-query';
-import { UseStokAuth } from '../context/stokContext';
 
 const theme = createTheme();
-
 
 export default function StokGiris({ veri }) {
   const [onay, setOnay] = React.useState(false)
 
-  const { _id } = useParams();
-  console.log(veri);
   const formik = useFormik({
     initialValues: {
       urun: veri.stokKodu,
@@ -30,23 +25,18 @@ export default function StokGiris({ veri }) {
       grubu: veri.grubu,
       islemTuru: "giris",
       adet: "",
-      stokDurum: "var",
-      birimFiyat: veri.fiyat
+      stokDurum: "var"
     },
     onSubmit: async (values, bag) => {
       try {
         if (veri.stokDurum === "yok") {
-          const stokEkleme = await stokEkle(values);
-          const urunDuzenleme = await urunDuzenle({ stokDurum: values.stokDurum }, veri._id);
-          console.log("selam");
+          await stokEkle(values);
+          await urunDuzenle({ stokDurum: values.stokDurum }, veri._id);
           setOnay(true)
-
         } else {
-          const stokDuzenleme = await stokDuzenle({ adet: data.adet + Number(values.adet) }, veri.stokKodu);
-          console.log("selam");
+          await stokDuzenle({ adet: data.adet + Number(values.adet) }, veri.stokKodu);
           setOnay(true)
         }
-
       } catch (e) {
         console.log(e);
       }
@@ -58,7 +48,6 @@ export default function StokGiris({ veri }) {
   if (isLoading) return 'Loading...'
 
   if (error) return 'An error has occurred: ' + error.message
-
 
   return (
     <ThemeProvider theme={theme}>
@@ -72,7 +61,6 @@ export default function StokGiris({ veri }) {
             alignItems: 'center',
           }}
         >
-
           <Typography component="h1" variant="h5">
             Stok Giriş
           </Typography>
@@ -158,11 +146,9 @@ export default function StokGiris({ veri }) {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               disabled={onay === true ? true : false}
-
             >
               Giriş işlemi yap
             </Button>
-
           </Box>
           <Button
             type="submit"
@@ -171,7 +157,6 @@ export default function StokGiris({ veri }) {
             sx={{ mt: 3, mb: 2 }}
             href="/"
             disabled={onay === false ? true : false}
-
           >
             Onayla
           </Button>
@@ -180,6 +165,3 @@ export default function StokGiris({ veri }) {
     </ThemeProvider >
   )
 }
-
-
-

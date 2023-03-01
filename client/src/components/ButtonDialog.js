@@ -5,7 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import { stokSil, urunuSil } from '../api';
 
-export default function AlertDialog({item}) {
+export default function AlertDialog({ item }) {
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -21,11 +21,10 @@ export default function AlertDialog({item}) {
         stokSil(item.stokKodu)
         setOpen(false);
     };
+
     return (
         <div>
-            <Button  onClick={handleClickOpen}>
-                Sil
-            </Button>
+            <Button onClick={handleClickOpen}>Sil</Button>
             <Dialog
                 open={open}
                 onClose={handleCancel}
@@ -35,12 +34,9 @@ export default function AlertDialog({item}) {
                 <DialogTitle id="alert-dialog-title">
                     {"Bu ürünü silmek istediğinize emin misiniz?"}
                 </DialogTitle>
-                
                 <DialogActions>
-                    <Button onClick={handleCancel}>Disagree</Button>
-                    <Button onClick={handleAccept} autoFocus>
-                        Agree
-                    </Button>
+                    <Button onClick={handleCancel}>Hayır</Button>
+                    <Button onClick={handleAccept} autoFocus>Evet</Button>
                 </DialogActions>
             </Dialog>
         </div>

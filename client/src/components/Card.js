@@ -11,7 +11,6 @@ import { stokSil, stokUrun, urunDuzenle } from '../api';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
-
 export default function BasicCard({ item }) {
   const navigate = useNavigate();
 
@@ -23,8 +22,6 @@ export default function BasicCard({ item }) {
 
   if (error) return 'An error has occurred: ' + error.message
 
-console.log(data);
-console.log(item);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -34,11 +31,12 @@ console.log(item);
   };
 
   const handleAccept = async () => {
-    const stokSilme = await stokSil(item.urun)
-    const urunDuzenleme = await urunDuzenle({ stokDurum: "yok" }, data._id);
+    await stokSil(item.urun)
+    await urunDuzenle({ stokDurum: "yok" }, data._id);
     setOpen(false);
     navigate("/malzeme")
   };
+
   return (
     <>
       <Card sx={{ minWidth: 275 }}>
@@ -50,8 +48,7 @@ console.log(item);
           }
           action={
             <Tooltip title='Ürünü sil' >
-              <IconButton  onClick={handleClickOpen} aria-label="settings" disabled={open === true ? true : false} >
-
+              <IconButton onClick={handleClickOpen} aria-label="settings" disabled={open === true ? true : false} >
                 <ClearIcon />
                 <Dialog
                   open={open}
@@ -62,19 +59,16 @@ console.log(item);
                   <DialogTitle id="alert-dialog-title">
                     {"Bu ürünü silmek istediğinize emin misiniz?"}
                   </DialogTitle>
-
                   <DialogActions>
-                    <Button onClick={handleCancel}>Disagree</Button>
-                    <Button onClick={handleAccept} autoFocus> Agree </Button>
+                    <Button onClick={handleCancel}>Hayır</Button>
+                    <Button onClick={handleAccept} autoFocus> Evet </Button>
                   </DialogActions>
                 </Dialog>
               </IconButton>
             </Tooltip>
-
           }
         />
         <CardContent>
-
           <Typography variant="h5" component="div"  >
             {item.cinsi.toUpperCase()}
           </Typography>
@@ -94,6 +88,5 @@ console.log(item);
         </CardActions>
       </Card>
     </>
-
   );
 }

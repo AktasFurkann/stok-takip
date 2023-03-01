@@ -3,9 +3,6 @@ import BasicCard from '../../components/Card';
 import { Button, Grid } from '@mui/material';
 import { UseStokAuth } from '../../context/stokContext';
 
-
-
-
 export default function Stok() {
   const { stok } = UseStokAuth();
 
@@ -23,9 +20,6 @@ export default function Stok() {
           </Grid>
         ))}
       </Grid>
-
-
     </>
-
   );
 }

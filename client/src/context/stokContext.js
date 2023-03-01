@@ -1,14 +1,9 @@
 import { useState, createContext, useEffect, useContext } from 'react'
-import { useQuery } from 'react-query';
 import { stoklarGetir } from '../api';
-
-
 
 const AuthContext = createContext();
 
 const StokProvider = ({ children }) => {
-
-
 
     const [stok, setStok] = useState([]);
 
@@ -23,7 +18,6 @@ const StokProvider = ({ children }) => {
             }
         })()
     }, [])
-
 
     const values = {
         stok
