@@ -16,7 +16,7 @@ export default function BasicCard({ item }) {
 
   const [open, setOpen] = useState(false);
 
-  const { isLoading, error, data } = useQuery(['urun-getir',], () => stokUrun(item.urun))
+  const { isLoading, error, data } = useQuery(['urun-getir'], () => stokUrun(item.urun))
 
   if (isLoading) return 'Loading...'
 
@@ -43,7 +43,7 @@ export default function BasicCard({ item }) {
         <CardHeader
           avatar={
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-              {item.grubu.toUpperCase()}
+              {item.cinsi.toUpperCase()}
             </Typography>
           }
           action={
@@ -70,10 +70,10 @@ export default function BasicCard({ item }) {
         />
         <CardContent>
           <Typography variant="h5" component="div"  >
-            {item.cinsi.toUpperCase()}
+            {item.grubu.toUpperCase()}
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary" >
-            {data.urun}
+            Ürün kodu: {item.urun}
           </Typography>
           <Typography variant="body1">
             {data.birimi.charAt(0).toUpperCase() + data.birimi.slice(1)}: {item.adet === 0 ? 'stokta yok' : item.adet}

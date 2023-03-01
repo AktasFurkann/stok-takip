@@ -71,6 +71,7 @@ export default function Urun({ item }) {
               </Grid>
               <Grid item xs={12} >
                 <TextField
+                  placeholder="Örn:Şeker"
                   required
                   fullWidth
                   id="cinsi"
@@ -82,6 +83,7 @@ export default function Urun({ item }) {
               </Grid>
               <Grid item xs={12} >
                 <TextField
+                  placeholder="Örn:Kg"
                   required
                   fullWidth
                   id="birimi"
@@ -93,6 +95,7 @@ export default function Urun({ item }) {
               </Grid>
               <Grid item xs={12} >
                 <TextField
+                  placeholder="Örn:Toz şeker"
                   required
                   fullWidth
                   name="grubu"
@@ -104,6 +107,7 @@ export default function Urun({ item }) {
               </Grid>
               <Grid item xs={12}   >
                 <TextField
+                  placeholder="Örn:1000"
                   required
                   fullWidth
                   name="fiyat"
