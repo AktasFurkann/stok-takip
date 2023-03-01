@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState}from 'react';
+import { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -7,23 +7,22 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { CardHeader, Dialog, DialogActions, DialogTitle, IconButton, Tooltip } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
-import {   stokSil, stokUrun, urunDuzenle } from '../api';
+import { stokSil, stokUrun, urunDuzenle } from '../api';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function BasicCard({ item }) {
-  
+  const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
 
-  const { isLoading, error, data } = useQuery(['urun-getir',],() => stokUrun(item.urun))
- 
-   if (isLoading) return 'Loading...'
- 
-   if (error) return 'An error has occurred: ' + error.message
+  const { isLoading, error, data } = useQuery(['urun-getir',], () => stokUrun(item.urun))
 
+  if (isLoading) return 'Loading...'
 
-   console.log(data);
+  if (error) return 'An error has occurred: ' + error.message
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -37,6 +36,7 @@ export default function BasicCard({ item }) {
     const stokSilme = await stokSil(item.urun)
     const urunDuzenleme = await urunDuzenle({ stokDurum: "yok" }, data._id);
     setOpen(false);
+    navigate("/malzeme")
   };
   return (
     <>
@@ -49,8 +49,8 @@ export default function BasicCard({ item }) {
           }
           action={
             <Tooltip title='Ürünü sil' >
-              <IconButton onClick={handleClickOpen} aria-label="settings" disabled={open === true ? true : false } >
-                
+              <IconButton  onClick={handleClickOpen} aria-label="settings" disabled={open === true ? true : false} >
+
                 <ClearIcon />
                 <Dialog
                   open={open}
@@ -75,13 +75,13 @@ export default function BasicCard({ item }) {
         <CardContent>
 
           <Typography variant="h5" component="div"  >
-            {item.cinsi.toUpperCase()}
+            {data.cinsi.toUpperCase()}
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary" >
-            {item.urun}
+            {data.urun}
           </Typography>
           <Typography variant="body1">
-            {item.birimi.charAt(0).toUpperCase() + item.birimi.slice(1)}: {item.adet === 0 ? 'stokta yok' : item.adet}
+            {data.birimi.charAt(0).toUpperCase() + data.birimi.slice(1)}: {item.adet === 0 ? 'stokta yok' : item.adet}
             <br />
             Birim fiyatı: {`${item.birimFiyat} ₺`}
             <br />
@@ -89,7 +89,7 @@ export default function BasicCard({ item }) {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button href='/Düzenle' size="small">Düzenle</Button>
+          <Button href={`/Islem/${data._id}`} size="small">Düzenle</Button>
         </CardActions>
       </Card>
     </>

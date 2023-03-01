@@ -15,7 +15,6 @@ const UrunProvider = ({ children }) => {
     useEffect(() => {
         (async () => {
             try {
-                console.log("selam");
                 const istek = await urunleriGetir();
                 setUrun(istek)
 

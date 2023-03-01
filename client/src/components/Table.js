@@ -50,9 +50,9 @@ export default function BasicTable() {
               <TableCell align="right">Birimi</TableCell>
               <TableCell align="right">Grubu</TableCell>
               <TableCell align="right">Fiyatı</TableCell>
-              <TableCell align="right">#</TableCell>
-              <TableCell align="right">#</TableCell>
               <TableCell align="right">Stok Giriş/Çıkış</TableCell>
+              <TableCell align="right">#</TableCell>
+              <TableCell align="right">#</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -68,9 +68,9 @@ export default function BasicTable() {
                 <TableCell align="right">{row.birimi.toUpperCase()}</TableCell>
                 <TableCell align="right">{row.grubu.toUpperCase()}</TableCell>
                 <TableCell align="right">{`${row.fiyat} ₺`}</TableCell>
-                <TableCell align="right"><Button href={`/Duzenle/${row._id}`}>Düzenle</Button></TableCell>
+                <TableCell align="right"><Button href={`/Islem/${row._id}`}>İşlem</Button></TableCell>
                 <TableCell width="150px" align="right"><ButtonDialog item={row}></ButtonDialog></TableCell>
-                <TableCell width="150px" align="right"><Button href={`/Islem/${row._id}`}>İşlem</Button></TableCell>
+                <TableCell width="150px" align="right"><Button href={`/Duzenle/${row._id}`}>Düzenle</Button></TableCell>
               </TableRow>
             ))}
           </TableBody>

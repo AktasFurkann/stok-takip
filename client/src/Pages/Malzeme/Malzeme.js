@@ -1,5 +1,5 @@
 
-import {  Stack } from '@mui/material'
+import { Stack } from '@mui/material'
 import React from 'react'
 import BasicTable from '../../components/Table'
 
@@ -8,7 +8,7 @@ function Malzeme() {
         <div>
             <br></br>
             <Stack spacing={2}>
-            <BasicTable></BasicTable>
+                <BasicTable></BasicTable>
             </Stack>
         </div>
     )

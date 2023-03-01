@@ -17,6 +17,8 @@ const theme = createTheme();
 
 
 export default function StokGiris({ veri }) {
+  const [onay, setOnay] = React.useState(false)
+
   const { _id } = useParams();
   console.log(veri);
   const formik = useFormik({
@@ -24,7 +26,7 @@ export default function StokGiris({ veri }) {
       urun: veri.stokKodu,
       cinsi: veri.cinsi,
       birimi: veri.birimi,
-      birimFiyat : veri.fiyat,
+      birimFiyat: veri.fiyat,
       grubu: veri.grubu,
       islemTuru: "giris",
       adet: "",
@@ -36,9 +38,13 @@ export default function StokGiris({ veri }) {
         if (veri.stokDurum === "yok") {
           const stokEkleme = await stokEkle(values);
           const urunDuzenleme = await urunDuzenle({ stokDurum: values.stokDurum }, veri._id);
+          console.log("selam");
+          setOnay(true)
+
         } else {
           const stokDuzenleme = await stokDuzenle({ adet: data.adet + Number(values.adet) }, veri.stokKodu);
           console.log("selam");
+          setOnay(true)
         }
 
       } catch (e) {
@@ -47,13 +53,12 @@ export default function StokGiris({ veri }) {
     }
   })
 
-  const { isLoading, error, data } = useQuery('stok-getir',() => stokGetir(veri.stokKodu))
+  const { isLoading, error, data } = useQuery('stok-getir', () => stokGetir(veri.stokKodu))
 
   if (isLoading) return 'Loading...'
 
   if (error) return 'An error has occurred: ' + error.message
 
-  console.log(data);
 
   return (
     <ThemeProvider theme={theme}>
@@ -152,14 +157,26 @@ export default function StokGiris({ veri }) {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              
-            >
-            Giriş işlemi yap
-          </Button>
+              disabled={onay === true ? true : false}
 
+            >
+              Giriş işlemi yap
+            </Button>
+
+          </Box>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            href="/"
+            disabled={onay === false ? true : false}
+
+          >
+            Onayla
+          </Button>
         </Box>
-      </Box>
-    </Container>
+      </Container>
     </ThemeProvider >
   )
 }

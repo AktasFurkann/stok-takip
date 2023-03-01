@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -15,25 +16,31 @@ const theme = createTheme();
 
 export default function Duzenle({ veri }) {
 
+    const [onay, setOnay] = useState(false)
+
     const formik = useFormik({
         initialValues: {
             stokKodu: veri.stokKodu,
             cinsi: veri.cinsi,
             birimi: veri.birimi,
             grubu: veri.grubu,
-            fiyat : veri.fiyat
+            fiyat: veri.fiyat
         },
         onSubmit: async (values, bag) => {
             try {
-                console.log(values);
-
                 const urunDuzenleme = await urunDuzenle(values, veri._id);
-                const stokDuzenleme = await stokDuzenle({ birimFiyat : Number(values.fiyat) }, values.stokKodu);
+                const stokDuzenleme = await stokDuzenle({ birimFiyat: Number(values.fiyat) }, values.stokKodu);
+                setOnay(true)
+
             } catch (e) {
                 console.log(e);
             }
         }
     })
+
+    // const submitoldu = useEffect(() => {
+    //     if(onay){setOnay(true)}
+    // },[])
 
 
     return (
@@ -123,17 +130,24 @@ export default function Duzenle({ veri }) {
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
-
+                            disabled={onay === true ? true : false}
                         >
                             Düzenle
                         </Button>
-
                     </Box>
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                        href="/malzeme"
+                        disabled={onay === false ? true : false}
+
+                    >
+                        Onayla
+                    </Button>
                 </Box>
             </Container>
         </ThemeProvider >
     )
 }
-
-
-

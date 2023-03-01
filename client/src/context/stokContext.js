@@ -15,14 +15,11 @@ const StokProvider = ({ children }) => {
     useEffect(() => {
         (async () => {
             try {
-                console.log("selam");
                 const istek = await stoklarGetir();
-                console.log(istek);
                 setStok(istek)
 
             } catch (error) {
                 console.log(error);
-
             }
         })()
     }, [])
