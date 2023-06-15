@@ -1,31 +1,34 @@
-import * as React from 'react';
+import * as React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import DrawerAppBar from './components/Navbar';
-import Stok from './Pages/Malzeme/Malzeme';
-import Malzeme from './Pages/Stok/Stok';
-import Urun from './Pages/Urun/Urun';
-import Islem from './Pages/Islem/Islem';
-import { useQuery } from 'react-query';
-import { urunleriGetir } from './api';
-import Duzenle from './Pages/Duzenle/Duzenle';
+import DrawerAppBar from "./components/Navbar";
+import Materials from "./Pages/Materials/Materials";
+import Stock from "./Pages/Stock/Stock";
+import Product from "./Pages/Product/Product";
+import Action from "./Pages/Action/Action";
+import { useQuery } from "react-query";
+import { listProducts } from "./api";
+import Update from "./Pages/Update/Update";
 
 export default function App() {
-  const { isLoading, error, data } = useQuery('urunleri-getir', urunleriGetir)
+  const { isLoading, error, data } = useQuery("get-products", listProducts);
 
-  if (isLoading) return 'Loading...'
+  if (isLoading) return "Loading...";
 
-  if (error) return 'An error has occurred: ' + error.message
+  if (error) return "An error has occurred: " + error.message;
 
   return (
     <div>
       <DrawerAppBar></DrawerAppBar>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Malzeme />} />
-          <Route path='Malzeme' element={<Stok></Stok>} />
-          <Route path='Duzenle/:urun_id' element={<Duzenle></Duzenle>} />
-          <Route path='Urun' element={<Urun item={data}></Urun>} />
-          <Route path='Islem/:stokKod' element={<Islem></Islem>} />
+          <Route path="AddProduct" element={<Product item={data}></Product>} />
+          <Route path="Stock" element={<Stock></Stock>} />
+          <Route path="Update/:product_id" element={<Update></Update>} />
+          <Route
+            path="Materials"
+            element={<Materials item={data}></Materials>}
+          />
+          <Route path="Action/:stockCode" element={<Action></Action>} />
         </Routes>
       </BrowserRouter>
     </div>

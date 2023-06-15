@@ -1,53 +1,58 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useFormik } from 'formik'
-import { stokDuzenle, stokEkle, stokGetir, urunDuzenle } from '../api';
-import { useQuery } from 'react-query';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useFormik } from "formik";
+import { updateStock, addStock, getStock, updateProduct } from "../api";
+import { useQuery } from "react-query";
 
 const theme = createTheme();
 
-export default function StokGiris({ veri }) {
-  const [onay, setOnay] = React.useState(false)
+export default function StockEntry({ item }) {
+  const [confirm, setConfirm] = React.useState(false);
 
   const formik = useFormik({
     initialValues: {
-      urun: veri.stokKodu,
-      cinsi: veri.cinsi,
-      birimi: veri.birimi,
-      birimFiyat: veri.fiyat,
-      grubu: veri.grubu,
-      islemTuru: "giris",
-      adet: "",
-      stokDurum: "var"
+      product: item.stockCode,
+      type: item.type,
+      unit: item.unit,
+      unitPrice: item.price,
+      group: item.group,
+      actionType: "giris",
+      total: "",
+      stockStatus: "var",
     },
     onSubmit: async (values, bag) => {
       try {
-        if (veri.stokDurum === "yok") {
-          await stokEkle(values);
-          await urunDuzenle({ stokDurum: values.stokDurum }, veri._id);
-          setOnay(true)
+        if (item.stockStatus === "yok") {
+          await addStock(values);
+          await updateProduct({ stockStatus: values.stockStatus }, item._id);
+          setConfirm(true);
         } else {
-          await stokDuzenle({ adet: data.adet + Number(values.adet) }, veri.stokKodu);
-          setOnay(true)
+          await updateStock(
+            { total: data.total + Number(values.total) },
+            item.stockCode
+          );
+          setConfirm(true);
         }
       } catch (e) {
         console.log(e);
       }
-    }
-  })
+    },
+  });
 
-  const { isLoading, error, data } = useQuery('stok-getir', () => stokGetir(veri.stokKodu))
+  const { isLoading, error, data } = useQuery("get-stock", () =>
+    getStock(item.stockCode)
+  );
 
-  if (isLoading) return 'Loading...'
+  if (isLoading) return "Loading...";
 
-  if (error) return 'An error has occurred: ' + error.message
+  if (error) return "An error has occurred: " + error.message;
 
   return (
     <ThemeProvider theme={theme}>
@@ -56,27 +61,32 @@ export default function StokGiris({ veri }) {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
           <Typography component="h1" variant="h5">
             Stok Giriş
           </Typography>
-          <Box component="form" noValidate onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={formik.handleSubmit}
+            sx={{ mt: 3 }}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
-                  name="urun"
+                  name="product"
                   required
                   fullWidth
-                  id="urun"
+                  id="product"
                   label="Stok kodu"
                   autoFocus
                   onChange={formik.handleChange}
-                  value={formik.values.urun}
+                  value={formik.values.product}
                   disabled
                 />
               </Grid>
@@ -84,11 +94,11 @@ export default function StokGiris({ veri }) {
                 <TextField
                   required
                   fullWidth
-                  id="cinsi"
+                  id="type"
                   label="Cinsi"
-                  name="cinsi"
+                  name="type"
                   onChange={formik.handleChange}
-                  value={veri.cinsi}
+                  value={item.type}
                   disabled
                 />
               </Grid>
@@ -96,11 +106,11 @@ export default function StokGiris({ veri }) {
                 <TextField
                   required
                   fullWidth
-                  id="birimi"
+                  id="unit"
                   label="Birimi"
-                  name="birimi"
+                  name="unit"
                   onChange={formik.handleChange}
-                  value={veri.birimi}
+                  value={item.unit}
                   disabled
                 />
               </Grid>
@@ -108,35 +118,35 @@ export default function StokGiris({ veri }) {
                 <TextField
                   required
                   fullWidth
-                  name="grubu"
+                  name="group"
                   label="Grubu"
-                  id="grubu"
+                  id="group"
                   onChange={formik.handleChange}
-                  value={veri.grubu}
+                  value={item.group}
                   disabled
                 />
               </Grid>
-              <Grid item xs={12} >
+              <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="birimFiyat"
+                  name="unitPrice"
                   label="Fiyatı"
-                  id="birimFiyat"
+                  id="unitPrice"
                   onChange={formik.handleChange}
-                  value={veri.fiyat}
+                  value={item.price}
                   disabled
                 />
               </Grid>
-              <Grid item xs={12} >
+              <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="adet"
+                  name="total"
                   label="Adet"
-                  id="adet"
+                  id="total"
                   onChange={formik.handleChange}
-                  value={formik.values.adet}
+                  value={formik.values.total}
                 />
               </Grid>
             </Grid>
@@ -145,7 +155,7 @@ export default function StokGiris({ veri }) {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              disabled={onay === true ? true : false}
+              disabled={confirm === true ? true : false}
             >
               Giriş işlemi yap
             </Button>
@@ -155,13 +165,13 @@ export default function StokGiris({ veri }) {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            href="/"
-            disabled={onay === false ? true : false}
+            href="/Stock"
+            disabled={confirm === false ? true : false}
           >
             Onayla
           </Button>
         </Box>
       </Container>
-    </ThemeProvider >
-  )
+    </ThemeProvider>
+  );
 }

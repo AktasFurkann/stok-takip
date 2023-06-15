@@ -1,29 +1,29 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { QueryClient, QueryClientProvider } from 'react-query'
-import { StokProvider } from './context/stokContext';
-import { UrunProvider } from './context/urunContext';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { StockProvider } from "./context/stockContext";
+import { ProductProvider } from "./context/productContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnMount: false,
-      refetchOnWindowFocus: false
-    }
-  }
-})
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <QueryClientProvider client={queryClient}>
-    <UrunProvider>
-      <StokProvider>
+    <ProductProvider>
+      <StockProvider>
         <App />
-      </StokProvider>
-    </UrunProvider>
+      </StockProvider>
+    </ProductProvider>
   </QueryClientProvider>
 );
 

@@ -1,40 +1,41 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useFormik } from 'formik'
-import { urunEkle } from '../../api';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useFormik } from "formik";
+import { addProduct } from "../../api";
 
 const theme = createTheme();
 
-export default function Urun({ item }) {
-  const [onay, setOnay] = React.useState(false)
+export default function Product({ item }) {
+  const [confirm, setConfirm] = React.useState(false);
 
-  const numaralar = item.map((veri) => veri.stokKodu)
+  const numbers = item.map(veri => veri.stockCode);
 
   const formik = useFormik({
     initialValues: {
-      stokKodu: item.length > 0 ? Number(numaralar[numaralar.length - 1]) + 1 : "1",
-      cinsi: "",
-      birimi: "",
-      grubu: "",
-      fiyat: "",
-      stokDurum: "yok"
+      stockCode:
+        item.length > 0 ? Number(numbers[numbers.length - 1]) + 1 : "1",
+      type: "",
+      unit: "",
+      group: "",
+      price: "",
+      stockStatus: "yok",
     },
     onSubmit: async (values, bag) => {
       try {
-        await urunEkle(values);
-        setOnay(true)
+        await addProduct(values);
+        setConfirm(true);
       } catch (e) {
         console.log(e);
       }
-    }
-  })
+    },
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -43,78 +44,82 @@ export default function Urun({ item }) {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
           <Typography component="h1" variant="h5">
             Ürün Ekle
           </Typography>
-          <Box component="form" noValidate onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
-            <Box my={5}>
-            </Box>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={formik.handleSubmit}
+            sx={{ mt: 3 }}
+          >
+            <Box my={5}></Box>
             <Grid container spacing={2}>
-              <Grid item xs={12} >
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="stokKodu"
+                  name="stockCode"
                   required
                   fullWidth
-                  id="stokKodu"
+                  id="stockCode"
                   label="Stok kodu"
                   autoFocus
                   onChange={formik.handleChange}
                   disabled
-                  value={formik.values.stokKodu}
+                  value={formik.values.stockCode}
                 />
               </Grid>
-              <Grid item xs={12} >
+              <Grid item xs={12}>
                 <TextField
                   placeholder="Örn:Şeker"
                   required
                   fullWidth
-                  id="cinsi"
+                  id="type"
                   label="Cinsi"
-                  name="cinsi"
+                  name="type"
                   onChange={formik.handleChange}
-                  value={formik.values.cinsi}
+                  value={formik.values.type}
                 />
               </Grid>
-              <Grid item xs={12} >
+              <Grid item xs={12}>
                 <TextField
                   placeholder="Örn:Kg"
                   required
                   fullWidth
-                  id="birimi"
+                  id="unit"
                   label="Birimi"
-                  name="birimi"
+                  name="unit"
                   onChange={formik.handleChange}
-                  value={formik.values.birimi}
+                  value={formik.values.unit}
                 />
               </Grid>
-              <Grid item xs={12} >
+              <Grid item xs={12}>
                 <TextField
                   placeholder="Örn:Toz şeker"
                   required
                   fullWidth
-                  name="grubu"
+                  name="group"
                   label="Grubu"
-                  id="grubu"
+                  id="group"
                   onChange={formik.handleChange}
-                  value={formik.values.grubu}
+                  value={formik.values.group}
                 />
               </Grid>
-              <Grid item xs={12}   >
+              <Grid item xs={12}>
                 <TextField
                   placeholder="Örn:1000"
                   required
                   fullWidth
-                  name="fiyat"
+                  name="price"
                   label="fiyatı"
-                  id="fiyat"
+                  id="price"
                   onChange={formik.handleChange}
-                  value={formik.values.fiyat}
+                  value={formik.values.price}
                 />
               </Grid>
             </Grid>
@@ -123,7 +128,7 @@ export default function Urun({ item }) {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              disabled={onay === true ? true : false}
+              disabled={confirm === true ? true : false}
             >
               Ürün Ekle
             </Button>
@@ -133,8 +138,8 @@ export default function Urun({ item }) {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            href="/malzeme"
-            disabled={onay === false ? true : false}
+            href="/Materials"
+            disabled={confirm === false ? true : false}
           >
             Onayla
           </Button>
